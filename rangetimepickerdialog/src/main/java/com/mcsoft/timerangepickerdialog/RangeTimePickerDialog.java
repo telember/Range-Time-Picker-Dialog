@@ -38,9 +38,9 @@ public class RangeTimePickerDialog extends DialogFragment
     private TimePicker timePickerStart, timePickerEnd;
     private Button btnPositive, btnNegative;
 
-    private int colorTabUnselected = R.color.White;
-    private int colorTabSelected = R.color.Yellow;
-    private int colorTextButton = R.color.Yellow;
+    private int colorTabUnselected = R.color.smoke;
+    private int colorTabSelected = R.color.White;
+    private int colorTextButton = R.color.White;
     private int colorBackgroundHeader = R.color.CyanWater;
     private int colorBackgroundTimePickerHeader = R.color.CyanWater;
     private boolean is24HourView = true;
@@ -249,6 +249,10 @@ public class RangeTimePickerDialog extends DialogFragment
             }
         });
         return mAlertDialog;
+    }
+
+    public void setmCallback(ISelectedTime mCallback) {
+        this.mCallback = mCallback;
     }
 
     @Override
