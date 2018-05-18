@@ -51,6 +51,10 @@ public class RangeTimePickerDialog extends DialogFragment
     private String textTabEnd = "End time";
     private int radiusDialog = 50; // Default 50
     private boolean validateRange = true;
+    private int hourStart = 0;
+    private int minuteStart = 0;
+    private int hourEnd = 0;
+    private int minuteEnd = 0;
 
     public interface ISelectedTime
     {
@@ -62,6 +66,9 @@ public class RangeTimePickerDialog extends DialogFragment
         RangeTimePickerDialog f = new RangeTimePickerDialog();
         return f;
     }
+
+
+
 
     private ISelectedTime mCallback;
 
@@ -116,6 +123,11 @@ public class RangeTimePickerDialog extends DialogFragment
         cardView.setRadius(radiusDialog);
 
         setColorTabLayout(colorTabSelected, colorTabUnselected, colorBackgroundHeader);
+
+        timePickerStart.setCurrentHour(hourStart);
+        timePickerStart.setCurrentMinute(minuteStart);
+        timePickerEnd.setCurrentHour(hourEnd);
+        timePickerEnd.setCurrentMinute(minuteEnd);
 
         timePickerStart.setIs24HourView(is24HourView);
         timePickerEnd.setIs24HourView(is24HourView);
@@ -282,6 +294,22 @@ public class RangeTimePickerDialog extends DialogFragment
         catch (ClassCastException e)
         {
             Log.d("MyDialog", "Activity doesn't implement the interface");
+        }
+    }
+
+
+
+    public void setTime(String startTime, String endTime){
+        RangeTimePickerDialog f = new RangeTimePickerDialog();
+        if(startTime != null && startTime != ""){
+            String[] starttimeArr = startTime.trim().split(":");
+            hourStart = Integer.parseInt(starttimeArr[0]);
+            minuteStart = Integer.parseInt(starttimeArr[1]);
+        }
+        if(endTime != null && endTime != ""){
+            String[] endtimeArr = endTime.trim().split(":");
+            hourEnd = Integer.parseInt(endtimeArr[0]);
+            minuteEnd = Integer.parseInt(endtimeArr[1]);
         }
     }
 

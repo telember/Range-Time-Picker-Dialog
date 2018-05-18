@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements RangeTimePickerDi
       // Create an instance of the dialog fragment and show it
       RangeTimePickerDialog dialog = new RangeTimePickerDialog();
       dialog.newInstance();
-      dialog.setIs24HourView(false);
+      dialog.setTime("10:20","20:30");
+      dialog.setIs24HourView(true);
       dialog.setRadiusDialog(20);
       dialog.setTextTabStart("Start");
       dialog.setTextTabEnd("End");
