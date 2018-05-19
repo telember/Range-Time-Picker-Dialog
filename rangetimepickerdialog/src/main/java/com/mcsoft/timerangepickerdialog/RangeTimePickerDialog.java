@@ -61,37 +61,15 @@ public class RangeTimePickerDialog extends DialogFragment
         void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd);
     }
 
-    public RangeTimePickerDialog newInstance()
+    public static RangeTimePickerDialog newInstance()
     {
         RangeTimePickerDialog f = new RangeTimePickerDialog();
         return f;
     }
-
-
-
 
     private ISelectedTime mCallback;
 
-    /**
-     * Create a new instance with own attributes (All color MUST BE in this format "R.color.my_color")
-     * @param colorBackgroundHeader Color of Background header dialog and timePicker
-     * @param colorTabUnselected Color of tab when unselected
-     * @param colorTabSelected Color of tab when selected
-     * @param colorTextButton Text color of button
-     * @param is24HourView Indicates if the format should be 24 hours
-     * @return
-     */
-    public RangeTimePickerDialog newInstance(int colorBackgroundHeader, int colorTabUnselected, int colorTabSelected, int colorTextButton, boolean is24HourView)
-    {
-        RangeTimePickerDialog f = new RangeTimePickerDialog();
-        this.colorTabUnselected = colorTabUnselected;
-        this.colorBackgroundHeader = colorBackgroundHeader;
-        this.colorBackgroundTimePickerHeader = colorBackgroundHeader;
-        this.colorTabSelected = colorTabSelected;
-        this.colorTextButton = colorTextButton;
-        this.is24HourView = is24HourView;
-        return f;
-    }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -106,14 +84,14 @@ public class RangeTimePickerDialog extends DialogFragment
         // Pass null as the parent view because its going in the dialog layout
         final View dialogView = inflater.inflate(R.layout.layout_custom_dialog, null);
         builder.setView(dialogView);
-        tabLayout = (TabLayout) dialogView.findViewById(R.id.tabLayout);
-        tabItemStartTime = (TabItem) dialogView.findViewById(R.id.tabStartTime);
-        tabItemEndTime = (TabItem) dialogView.findViewById(R.id.tabEndTime);
-        timePickerStart = (TimePicker) dialogView.findViewById(R.id.timePickerStart);
-        timePickerEnd = (TimePicker) dialogView.findViewById(R.id.timePickerEnd);
-        btnPositive = (Button) dialogView.findViewById(R.id.btnPositiveDialog);
-        btnNegative = (Button) dialogView.findViewById(R.id.btnNegativeDialog);
-        CardView cardView = (CardView) dialogView.findViewById(R.id.ly_root);
+        tabLayout = dialogView.findViewById(R.id.tabLayout);
+        tabItemStartTime = dialogView.findViewById(R.id.tabStartTime);
+        tabItemEndTime = dialogView.findViewById(R.id.tabEndTime);
+        timePickerStart = dialogView.findViewById(R.id.timePickerStart);
+        timePickerEnd = dialogView.findViewById(R.id.timePickerEnd);
+        btnPositive = dialogView.findViewById(R.id.btnPositiveDialog);
+        btnNegative = dialogView.findViewById(R.id.btnNegativeDialog);
+        CardView cardView = dialogView.findViewById(R.id.ly_root);
 
         // Set TimePicker header background color
         setTimePickerHeaderBackgroundColor(this, ContextCompat.getColor(getActivity(), colorBackgroundTimePickerHeader), "timePickerStart");
@@ -218,14 +196,7 @@ public class RangeTimePickerDialog extends DialogFragment
                             {
                                 flagCorrect = true;
                             }
-                            else if(hourEnd==hourStart && minuteEnd>minuteStart)
-                            {
-                                flagCorrect = true;
-                            }
-                            else
-                            {
-                                flagCorrect = false;
-                            }
+                            else flagCorrect = hourEnd == hourStart && minuteEnd > minuteStart;
                         }
                         else
                         {
@@ -301,15 +272,21 @@ public class RangeTimePickerDialog extends DialogFragment
 
     public void setTime(String startTime, String endTime){
         RangeTimePickerDialog f = new RangeTimePickerDialog();
-        if(startTime != null && startTime != ""){
-            String[] starttimeArr = startTime.trim().split(":");
-            hourStart = Integer.parseInt(starttimeArr[0]);
-            minuteStart = Integer.parseInt(starttimeArr[1]);
+        if(startTime != null && !startTime.isEmpty()){
+            String[] timeArr = startTime.trim().split(":");
+            if(timeArr.length > 1){
+                hourStart = Integer.parseInt(timeArr[0].isEmpty()?"0":timeArr[0]);
+                minuteStart = Integer.parseInt(timeArr[1].isEmpty()?"0":timeArr[1]);
+            }
+
         }
-        if(endTime != null && endTime != ""){
-            String[] endtimeArr = endTime.trim().split(":");
-            hourEnd = Integer.parseInt(endtimeArr[0]);
-            minuteEnd = Integer.parseInt(endtimeArr[1]);
+        if(endTime != null && !endTime.isEmpty()){
+            String[] timeArr = endTime.trim().split(":");
+            if(timeArr.length > 1){
+                hourEnd = Integer.parseInt(timeArr[0].isEmpty()?"0":timeArr[0]);
+                minuteEnd = Integer.parseInt(timeArr[1].isEmpty()?"0":timeArr[1]);
+            }
+
         }
     }
 
